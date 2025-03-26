@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Fridge",
+    "avgPowerConsumption": 150,
+    "energyLabel": "A" ,
+    "usageMode": "ALWAYS_ON",
+    "embodiedEmissions": 25
+  },
+  {
+    "name": "Toaster",
+    "avgPowerConsumption": 800,
+    "energyLabel": "C",
+    "usageMode": "ONE_OFF",
+    "embodiedEmissions": 20
+  },
+  {
+    "name": "Lamp",
+    "avgPowerConsumption": 200,
+    "energyLabel": "B",
+    "usageMode": "ONE_OFF",
+    "embodiedEmissions": 15
+  }
+]
