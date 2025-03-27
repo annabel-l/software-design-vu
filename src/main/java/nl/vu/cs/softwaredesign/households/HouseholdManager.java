@@ -13,7 +13,13 @@ public class HouseholdManager {
     }
     // should we increase the quantity if appliance exists
     public void addAppliance(Appliance appliance, int quantity){
-        household.getAppliances().put(appliance, quantity);
+        Map<Appliance, Integer> appliancesAndQuantities = household.getAppliances();
+        if(appliancesAndQuantities.containsKey(appliance)) { //already exists in household
+            household.getAppliances().put(appliance, appliancesAndQuantities.get(appliance) + quantity);
+        }
+        else{
+            appliancesAndQuantities.put(appliance, quantity);
+        }
     }
 
     //WARNING: are these methods even necessary? only necessary if we are modifying
@@ -34,6 +40,10 @@ public class HouseholdManager {
 
     public void changeCarbonIntensity(int carbonIntensity){
         household.setCarbonIntensity(carbonIntensity);
+    }
+
+    public void addApplianceCF(Appliance appliance, double cf){
+        household.getAppliancesAndCF().put(appliance, cf);
     }
 
 }
