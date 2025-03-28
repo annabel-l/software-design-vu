@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import nl.vu.cs.softwaredesign.appliances.*;
 
-public class Household implements Iterable<Map.Entry<Appliance, Integer>>{
+public class Household implements Iterable<Map.Entry<Appliance, Integer>> {
     private String name;
     private String region;
     private int carbonIntensity;
@@ -12,12 +12,23 @@ public class Household implements Iterable<Map.Entry<Appliance, Integer>>{
     private LocalDateTime endTime;
     private double carbonFootprint;
 
-    public Map<Appliance, Integer> appliances; // key: appliance, value: quantity
+    private Map<Appliance, Integer> appliances; // key: appliance, value: quantity
+    private Map<Appliance, Double> appliancesAndCF; // key: appliance, value: CF
 
     public Household(String name, String region, int carbonIntensity, LocalDateTime startTime, LocalDateTime endTime) {
         this.name = name;
         this.region = region; //enum?
         this.appliances = new HashMap<>();
+        this.appliancesAndCF = new HashMap<>();
+        this.carbonIntensity = carbonIntensity;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public Household(String name, String region, int carbonIntensity, Map<Appliance, Integer> appliances, LocalDateTime startTime, LocalDateTime endTime) {
+        this.name = name;
+        this.region = region; //enum?
+        this.appliances = new HashMap<>(appliances);
         this.appliancesAndCF = new HashMap<>();
         this.carbonIntensity = carbonIntensity;
         this.startTime = startTime;

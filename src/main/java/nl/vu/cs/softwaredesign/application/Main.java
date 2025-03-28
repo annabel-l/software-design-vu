@@ -92,7 +92,7 @@ public class Main {
             }
 
             // if invalid index
-            while (index < 0 || index >= repo.applianceRepoSize()) {
+            while (index <= 0 || index > repo.applianceRepoSize()) {
                 System.out.println("Error: invalid input. Please enter a valid index:");
                 givenIndex = scanner.nextLine();
                 index = Integer.parseInt(givenIndex);
@@ -133,12 +133,13 @@ public class Main {
         }
 
         //Display current household
-        System.out.println("Here is your current household: ");
-        for(Map.Entry<Appliance, Integer> entry : newHousehold){
-            Appliance appliance = entry.getKey();
-            int quantity = entry.getValue();
-            System.out.println(appliance +  " , Quantity: " + quantity);
-        }
+//        System.out.println("Here is your current household: ");
+//        for(Map.Entry<Appliance, Integer> entry : household){
+//            Appliance appliance = entry.getKey();
+//            int quantity = entry.getValue();
+//            System.out.println(appliance +  " , Quantity: " + quantity);
+//        }
+        displayHousehold(household);
 
         //Calculate carbon footprint
         CFCalculator calculator = new CFCalculator(household, manager);
@@ -302,7 +303,28 @@ public class Main {
         //when exploring what-if scenarios, what-if scenario generates a copy of current household that user modifies
 
         //if user is done modifying what-if, generate CF here
+
         //display CF here too
+
         //user can keep going back and creating new what-if scenarios until done
+    }
+
+    public static void displayHousehold(Household household) {
+        //Display current household's applinces
+        System.out.println("Here is your current household: ");
+        for(Map.Entry<Appliance, Integer> entry : household){
+            Appliance appliance = entry.getKey();
+            int quantity = entry.getValue();
+            System.out.println(appliance.getApplianceName() +  " , Quantity: " + quantity);
+        }
+    }
+
+    public static void displayAppliances(ApplianceRepo repo) {
+        //displays all the appliances in the repo
+        int index = 1;
+        for(Appliance appliance : repo.getAllAppliances()) {
+            System.out.println(index + " : " + appliance.getApplianceName());
+            index++;
+        }
     }
 }
