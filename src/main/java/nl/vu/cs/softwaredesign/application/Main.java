@@ -274,7 +274,6 @@ public class Main {
                         whatIf.editHouseholdCarbonIntensity(newCarbonIntensity);
                         break;
                     case 7:
-                        double oldHouseholdCF = calculator.calculateCF();
                         System.out.println("Carbon footprint for old household : " + currHouseholdCF);
                         break;
                     case 8:
@@ -292,7 +291,8 @@ public class Main {
                         break;
                 }
             }
-
+            displayHousehold(household);
+            System.out.println("Thank you for using our carbon footprint calculator!");
         }
         else{
             System.out.println("Thank you for using our carbon footprint calculator!");
