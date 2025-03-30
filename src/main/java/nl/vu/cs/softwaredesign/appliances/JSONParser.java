@@ -57,6 +57,7 @@ public class JSONParser {
             System.exit(1); // quits program, returns 1 to the OS
         }
 
-        return new ApplianceRepo(allAppliances);
+        // Singleton method ensures only one instance of ApplianceRepo
+        return ApplianceRepo.getInstance(allAppliances);
     }
 }
