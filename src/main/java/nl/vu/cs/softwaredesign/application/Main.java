@@ -7,32 +7,9 @@ import nl.vu.cs.softwaredesign.appliances.*;
 import nl.vu.cs.softwaredesign.cfcalculator.CFCalculator;
 import nl.vu.cs.softwaredesign.households.*;
 import nl.vu.cs.softwaredesign.recommendations.RecommendationsGenerator;
-/*
-application/UI
-- Main.java
-- Menu?
-
-appliances
-- Appliance
-- ApplianceRepo
-- JSONParser
-
-households
-- Household
-- HouseholdManager
-- WhatIfExplorer
-
-recommendations
-- RecommendationsGenerator
-
-cfcalculator
-- CFCalculator.java
-
-*/
 
 public class Main {
     public static void main (String[] args){
-        //System.out.println("Welcome to Software Design!");
         Scanner scanner = new Scanner(System.in);
 
         //JSON file parser
@@ -41,14 +18,12 @@ public class Main {
         JSONParser test = new JSONParser();
         ApplianceRepo repo = test.jsonParser(filePath);
         List<Appliance> apps = repo.getAllAppliances();
-        for(Appliance app : apps) { //put this into AppliancesRepo
+        for(Appliance app : apps) {
             System.out.println(app.getApplianceName() + " - " +
                     app.getAvgPowerConsumption() + "W - " +
                     app.getUsageMode() + " - Energy label: " +
                     app.getEnergyLabel());
         }
-
-        // put all steps in methods for readability --> maybe in another class
 
         //User creates a household
         System.out.println("Enter Household Name: ");
@@ -73,12 +48,6 @@ public class Main {
         HouseholdManager manager = new HouseholdManager(household);
 
         //User adds appliances to household
-//        System.out.println("Possible Appliances: ");
-//        int applianceIndex = 1;
-//        for(Appliance app : repo){ //put this into AppliancesRepo
-//            System.out.println(applianceIndex + ". " + app.getApplianceName());
-//            applianceIndex++;
-//        }
         displayAppliances(repo);
 
         while(true) {
@@ -98,12 +67,12 @@ public class Main {
                 index = Integer.parseInt(givenIndex);
             }
 
-            //quantity
+            // quantity
             System.out.println("Enter the quantity of this appliance to add: ");
             String quantityInput = scanner.nextLine();
             int quantity = Integer.parseInt(quantityInput);
 
-            //if invalid quantity
+            // if invalid quantity
             while (quantity < 0) {
                 System.out.println("Error: invalid quantity. Please enter a number greater than or equal to 0: ");
                 quantityInput = scanner.nextLine();
@@ -132,13 +101,6 @@ public class Main {
             }
         }
 
-        //Display current household
-//        System.out.println("Here is your current household: ");
-//        for(Map.Entry<Appliance, Integer> entry : household){
-//            Appliance appliance = entry.getKey();
-//            int quantity = entry.getValue();
-//            System.out.println(appliance +  " , Quantity: " + quantity);
-//        }
         displayHousehold(household);
 
         //Calculate carbon footprint
@@ -146,40 +108,9 @@ public class Main {
         double currHouseholdCF = calculator.calculateCF();
         System.out.println("Carbon footprint for " + household.getName() + ": " + currHouseholdCF);
 
-        //Generate report
-        RecommendationsGenerator recommendationsGenerator = new RecommendationsGenerator(household);
-        List<Map.Entry<Appliance, Double>> top5 = recommendationsGenerator.getTop5Appliances();
-        System.out.println("Top 5 appliances with the highest carbon footprint: ");
-        for (Map.Entry<Appliance, Double> entry: top5) {
-            System.out.println(entry.getKey().getApplianceName() + "-" + entry.getValue() + "kg CO2");
-        }
-        System.out.println("Consider reducing or removing these appliances due to high carbon footprint.");
+        //Generate report and recommendations
+        generateReportAndRecommendations(household);
 
-
-        //Generate recommendations
-
-        Appliance worstAlwaysOn = recommendationsGenerator.worstAlwaysOn();
-        if (worstAlwaysOn != null) {
-            System.out.println("The worst always on appliance is " + worstAlwaysOn.getApplianceName() + ".");
-            System.out.println("Consider shutting down or reducing the usage of this always-on appliance.");
-        }
-        else {
-            System.out.println("No always-on appliances with high carbon footprints found.");
-        }
-
-        List<Appliance> highEMAppliances = recommendationsGenerator.highEM();
-        if (!highEMAppliances.isEmpty()) {
-            System.out.println("The following appliances have embodied emissions (EM) of over 600 kg CO2.");
-            for(Appliance appliance : highEMAppliances) {
-                System.out.println(appliance.getApplianceName() + " - EM: " + appliance.getEmbodiedEmissions() + " kg CO2");
-            }
-            System.out.println("Consider replacing these appliances with lower EM appliances.");
-        }
-        else {
-            System.out.println("No appliances with high embodied emissions over 600 kg CO2 found.");
-        }
-
-        System.out.println("Following these recommendations can help you lower your household's carbon footpirnt.");
         System.out.println("Would you like to explore these recommendations in a what-if scenario? Type Y or N.");
 
         char choice;
@@ -196,23 +127,23 @@ public class Main {
         }
 
         if (choice == 'Y') { //User wants to explore what-if scenario
-            //User explores what-if scenarios
             WhatIfExplorer whatIf = new WhatIfExplorer(household);
-            CFCalculator newCalculator = new CFCalculator(whatIf.useNewHousehold(), manager);
+
+            CFCalculator newCalculator = new CFCalculator(whatIf.useNewHousehold(), whatIf.getManager());
             boolean exploring = true;
             while(exploring) {
                 System.out.println("-----------------------------------------------");
                 System.out.println("What would you like to do? ");
-                System.out.println("1. Add an appliance");
-                System.out.println("2. Remove an appliance");
-                System.out.println("3. View current appliances in the household");
-                System.out.println("4. Edit household start time");
-                System.out.println("5. Edit household end time");
-                System.out.println("6. Edit household carbon intensity");
+                System.out.println("1. Add an appliance to the what-if household");
+                System.out.println("2. Remove an appliance from the what-if household");
+                System.out.println("3. View current appliances in the what-if household");
+                System.out.println("4. Edit what-if household's start time");
+                System.out.println("5. Edit what-if household's end time");
+                System.out.println("6. Edit what-if household's carbon intensity");
                 System.out.println("7. View old household carbon footprint");
-                System.out.println("8. Update new household carbon footprint");
+                System.out.println("8. See what-if household's carbon footprint");
                 System.out.println("9. Save old household");
-                System.out.println("10. Save new household");
+                System.out.println("10. Save what-if household");
                 System.out.println("Enter your choice: ");
                 System.out.println("-----------------------------------------------");
                 String line = scanner.nextLine();
@@ -228,7 +159,7 @@ public class Main {
                             chosenApplianceIndex = scanner.nextLine();
                             index = Integer.parseInt(chosenApplianceIndex);
                         }
-                        Appliance chosenAppliance = repo.getApplianceByIndex(index);
+                        Appliance chosenAppliance = repo.getApplianceByIndex(index-1);
                         System.out.println("How many of this appliance would you like to add");
                         String chosenQuantity = scanner.nextLine();
                         int quantity = Integer.parseInt(chosenQuantity);
@@ -236,6 +167,19 @@ public class Main {
                             System.out.println("Invalid quantity, please try again");
                             chosenQuantity = scanner.nextLine();
                             quantity = Integer.parseInt(chosenQuantity);
+                        }
+                        if (chosenAppliance.getUsageMode() == Appliance.UsageMode.ONE_OFF) {
+                            System.out.println("This appliance is used during a specific time range during the day.");
+
+                            System.out.println("What hour from 0 to 24 does this appliance start being in use?");
+                            String applianceStart = scanner.nextLine();
+                            int applianceStartHour = Integer.parseInt(applianceStart);
+                            chosenAppliance.setStartTime(applianceStartHour);
+
+                            System.out.println("What hour from 0 to 24 does the appliance stop being in use?");
+                            String applianceEnd = scanner.nextLine();
+                            int applianceEndHour = Integer.parseInt(applianceEnd);
+                            chosenAppliance.setEndTime(applianceEndHour);
                         }
                         whatIf.editHouseholdAddition(chosenAppliance, quantity);
                         break;
@@ -249,7 +193,7 @@ public class Main {
                             removedApplianceIndex = scanner.nextLine();
                             removedIndex = Integer.parseInt(removedApplianceIndex);
                         }
-                        Appliance removedAppliance = repo.getApplianceByIndex(removedIndex);
+                        Appliance removedAppliance = repo.getApplianceByIndex(removedIndex-1);
                         whatIf.editHouseholdDeletion(removedAppliance);
                         break;
                     case 3:
@@ -267,18 +211,16 @@ public class Main {
                         LocalDateTime newEndTime = LocalDateTime.parse(newInputEndTime, formatter);
                         whatIf.editHouseholdEndTime(newEndTime); //verify that start/end times are valid?
                         break;
-                    case 6://edit carbon intensity
+                    case 6: //edit carbon intensity
                         System.out.println("Enter new carbon intensity for region: ");
                         String newInputCarbonIntensity = scanner.nextLine();
                         int newCarbonIntensity = Integer.parseInt(newInputCarbonIntensity);
                         whatIf.editHouseholdCarbonIntensity(newCarbonIntensity);
                         break;
                     case 7:
-                        double oldHouseholdCF = calculator.calculateCF();
                         System.out.println("Carbon footprint for old household : " + currHouseholdCF);
                         break;
                     case 8:
-                        //
                         double newHouseholdCF = newCalculator.calculateCF();
                         System.out.println("Carbon footprint for new household : " + newHouseholdCF);
                         break;
@@ -292,30 +234,19 @@ public class Main {
                         break;
                 }
             }
-
+            displayHousehold(household);
+            generateReportAndRecommendations(household);
         }
-        else{
-            System.out.println("Thank you for using our carbon footprint calculator!");
-        }
-
-
-
-        //when exploring what-if scenarios, what-if scenario generates a copy of current household that user modifies
-
-        //if user is done modifying what-if, generate CF here
-
-        //display CF here too
-
-        //user can keep going back and creating new what-if scenarios until done
+        System.out.println("Thank you for using our carbon footprint calculator!");
     }
 
     public static void displayHousehold(Household household) {
-        //Display current household's applinces
-        System.out.println("Here is your current household: ");
+        //display current household's appliances
+        System.out.println("Here is your household: ");
         for(Map.Entry<Appliance, Integer> entry : household){
             Appliance appliance = entry.getKey();
             int quantity = entry.getValue();
-            System.out.println(appliance.getApplianceName() +  " , Quantity: " + quantity);
+            System.out.println(appliance.getApplianceName() +  ", Quantity: " + quantity);
         }
     }
 
@@ -326,5 +257,40 @@ public class Main {
             System.out.println(index + " : " + appliance.getApplianceName());
             index++;
         }
+    }
+
+    public static void generateReportAndRecommendations(Household household){
+        RecommendationsGenerator recommendationsGenerator = new RecommendationsGenerator(household);
+        List<Map.Entry<Appliance, Double>> top5 = recommendationsGenerator.getTop5Appliances();
+        System.out.println("Top 5 appliances with the highest carbon footprint: ");
+        for (Map.Entry<Appliance, Double> entry: top5) {
+            System.out.println(entry.getKey().getApplianceName() + ": " + entry.getValue() + " kg CO2");
+        }
+        System.out.println("Consider reducing or removing these appliances due to high carbon footprint.");
+
+
+        //Generate recommendations
+        Appliance worstAlwaysOn = recommendationsGenerator.worstAlwaysOn();
+        if (worstAlwaysOn != null) {
+            System.out.println("The worst always on appliance is " + worstAlwaysOn.getApplianceName() + ".");
+            System.out.println("Consider shutting down or reducing the usage of this always-on appliance.");
+        }
+        else {
+            System.out.println("No always-on appliances with high carbon footprints found.");
+        }
+
+        List<Appliance> highEMAppliances = recommendationsGenerator.highEM();
+        if (!highEMAppliances.isEmpty()) {
+            System.out.println("The following appliances have embodied emissions (EM).");
+            for(Appliance appliance : highEMAppliances) {
+                System.out.println(appliance.getApplianceName() + " - EM: " + appliance.getEmbodiedEmissions() + " kg CO2");
+            }
+            System.out.println("Consider replacing these appliances with lower EM appliances.");
+        }
+        else {
+            System.out.println("No appliances with high embodied emissions found.");
+        }
+
+        System.out.println("Following these recommendations can help you lower your household's carbon footprint.");
     }
 }

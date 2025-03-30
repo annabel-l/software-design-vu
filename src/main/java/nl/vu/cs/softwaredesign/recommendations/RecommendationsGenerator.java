@@ -2,9 +2,7 @@ package nl.vu.cs.softwaredesign.recommendations;
 
 import nl.vu.cs.softwaredesign.households.*;
 import nl.vu.cs.softwaredesign.appliances.*;
-
 import java.util.*;
-
 
 public class RecommendationsGenerator {
     private Household household;
@@ -32,7 +30,7 @@ public class RecommendationsGenerator {
     // Rules:
 // give the top 5 worst CF appliances --> consider removing some of these appliances or reduce quantity
 // recommend shutting down the worst appliance that is always-on or turning down modes
-// recommend removing appliances that have high EM(x)
+// recommend removing appliances that have high EM(x) > 600 kg CO2
 
     public Appliance worstAlwaysOn() {
         double highestCF = 0.0;
@@ -50,7 +48,7 @@ public class RecommendationsGenerator {
     public List<Appliance> highEM() {
         List<Appliance> highEMAppliances = new ArrayList<>();
         for (Appliance appliance : household.getAppliancesAndCF().keySet()) {
-            if (appliance.getEmbodiedEmissions() > 600) {
+            if (appliance.getEmbodiedEmissions() > 50) {
                 highEMAppliances.add(appliance);
             }
         }

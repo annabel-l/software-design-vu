@@ -1,6 +1,5 @@
 package nl.vu.cs.softwaredesign.households;
 
-import java.util.*;
 import nl.vu.cs.softwaredesign.appliances.*;
 import java.time.LocalDateTime;
 
@@ -9,12 +8,14 @@ public class WhatIfExplorer {
     private Household oldHousehold;
     private Household newHousehold;
     public WhatIfExplorer(Household household) {
-        this.newHousehold = new Household(household.getName(), household.getRegion(), household.getCarbonIntensity(), household.getAppliances(), household.getStartTime(), household.getEndTime());
+        this.newHousehold = new Household(household.getName(), household.getRegion(), household.getCarbonIntensity(), household.getAppliances(), household.getAppliancesAndCF(), household.getStartTime(), household.getEndTime());
         this.oldHousehold = household;
         this.manager = new HouseholdManager(newHousehold);
     }
 
-
+    public HouseholdManager getManager(){
+        return this.manager;
+    }
 
     public void editHouseholdAddition(Appliance appliance, int quantity) {
         this.manager.addAppliance(appliance, quantity);
@@ -47,6 +48,4 @@ public class WhatIfExplorer {
     public boolean validPick(ApplianceRepo repo, int index) {
         return (0 <= (index - 1)) && ((index - 1) <= repo.applianceRepoSize());
     }
-
-
 }

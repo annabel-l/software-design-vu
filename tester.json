@@ -2,7 +2,7 @@
   {
     "name": "Fridge",
     "avgPowerConsumption": 150,
-    "energyLabel": "A" ,
+    "energyLabel": "A",
     "usageMode": "ALWAYS_ON",
     "embodiedEmissions": 25
   },
@@ -17,7 +17,56 @@
     "name": "Lamp",
     "avgPowerConsumption": 200,
     "energyLabel": "B",
-    "usageMode": "ONE_OFF",
+    "usageMode": "DAYTIME",
     "embodiedEmissions": 15
+  },
+  {
+    "name": "Washing Machine",
+    "avgPowerConsumption": 500,
+    "energyLabel": "A+",
+    "usageMode": "ONE_OFF",
+    "embodiedEmissions": 40
+  },
+  {
+    "name": "Microwave",
+    "avgPowerConsumption": 1200,
+    "energyLabel": "B",
+    "usageMode": "ONE_OFF",
+    "embodiedEmissions": 30
+  },
+  {
+    "name": "Air Conditioner",
+    "avgPowerConsumption": 2000,
+    "energyLabel": "C",
+    "usageMode": "ALWAYS_ON",
+    "embodiedEmissions": 60
+  },
+  {
+    "name": "Television",
+    "avgPowerConsumption": 100,
+    "energyLabel": "A",
+    "usageMode": "ONE_OFF",
+    "embodiedEmissions": 10
+  },
+  {
+    "name": "Electric Kettle",
+    "avgPowerConsumption": 1800,
+    "energyLabel": "B",
+    "usageMode": "ONE_OFF",
+    "embodiedEmissions": 25
+  },
+  {
+    "name": "Computer",
+    "avgPowerConsumption": 300,
+    "energyLabel": "A",
+    "usageMode": "ONE_OFF",
+    "embodiedEmissions": 35
+  },
+  {
+    "name": "Router",
+    "avgPowerConsumption": 20,
+    "energyLabel": "A++",
+    "usageMode": "ALWAYS_ON",
+    "embodiedEmissions": 5
   }
 ]

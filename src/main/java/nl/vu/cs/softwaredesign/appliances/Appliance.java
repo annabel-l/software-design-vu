@@ -6,10 +6,10 @@ public class Appliance {
     }
 
     private String applianceName;
-    private int avgPowerConsumption; // average power consumption of the appliance per hour in Watts
-    private UsageMode usageMode; //ENUM
+    private int avgPowerConsumption;
+    private UsageMode usageMode;
     private String energyLabel;
-    private int embodiedEmissions; // total CO2 emitted for producing the appliance
+    private int embodiedEmissions;
     private int startTime; //daily start hour from 0-24
     private int endTime; //daily end hour from 0-24
 
@@ -38,24 +38,12 @@ public class Appliance {
         return usageMode;
     }
 
-    public void setUsageMode(UsageMode usageMode) {
-        this.usageMode = usageMode;
-    }
-
     public String getEnergyLabel() {
         return energyLabel;
     }
 
-    public void setEnergyLabel(String energyLabel) {
-        this.energyLabel = energyLabel;
-    }
-
     public int getEmbodiedEmissions() {
         return embodiedEmissions;
-    }
-
-    public void setEmbodiedEmissions(int embodiedEmissions) {
-        this.embodiedEmissions = embodiedEmissions;
     }
 
     public int getStartTime() { return startTime; }

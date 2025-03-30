@@ -10,14 +10,13 @@ public class Household implements Iterable<Map.Entry<Appliance, Integer>> {
     private int carbonIntensity;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private double carbonFootprint;
 
     private Map<Appliance, Integer> appliances; // key: appliance, value: quantity
     private Map<Appliance, Double> appliancesAndCF; // key: appliance, value: CF
 
     public Household(String name, String region, int carbonIntensity, LocalDateTime startTime, LocalDateTime endTime) {
         this.name = name;
-        this.region = region; //enum?
+        this.region = region;
         this.appliances = new HashMap<>();
         this.appliancesAndCF = new HashMap<>();
         this.carbonIntensity = carbonIntensity;
@@ -25,11 +24,11 @@ public class Household implements Iterable<Map.Entry<Appliance, Integer>> {
         this.endTime = endTime;
     }
 
-    public Household(String name, String region, int carbonIntensity, Map<Appliance, Integer> appliances, LocalDateTime startTime, LocalDateTime endTime) {
+    public Household(String name, String region, int carbonIntensity, Map<Appliance, Integer> appliances, Map<Appliance, Double> appliancesAndCF, LocalDateTime startTime, LocalDateTime endTime) {
         this.name = name;
-        this.region = region; //enum?
+        this.region = region;
         this.appliances = new HashMap<>(appliances);
-        this.appliancesAndCF = new HashMap<>();
+        this.appliancesAndCF = new HashMap<>(appliancesAndCF);
         this.carbonIntensity = carbonIntensity;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -78,7 +77,4 @@ public class Household implements Iterable<Map.Entry<Appliance, Integer>> {
         this.carbonIntensity = carbonIntensity;
     }
 
-    public double getCarbonFootprint() {
-        return this.carbonFootprint;
-    }
 }

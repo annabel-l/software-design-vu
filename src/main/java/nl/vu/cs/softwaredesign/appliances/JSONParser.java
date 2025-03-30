@@ -42,7 +42,7 @@ public class JSONParser {
                 } catch (IllegalArgumentException e) {
                     System.out.println("Invalid usage mode: " + modeNode.asText() + ". Quitting.");
                     System.exit(1);
-                    return null; //bad practice?
+                    return null;
                 }
 
                 int embodiedEmissions = embodiedEmissionsNode.asInt();
